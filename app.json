@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "boiler",
+    "slug": "boiler",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/Pulse-App.jpg",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/Pulse-App.jpg",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/Pulse-App.jpg",
+        "backgroundColor": "black"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
