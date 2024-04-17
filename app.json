@@ -15,16 +15,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "yes"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/Pulse-App.jpg",
         "backgroundColor": "black"
-      }
+      },
+      "package": "com.dtw8hn.boiler"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "59eed537-df2e-4f5f-b61b-5fe00c58d037"
+      }
     }
   }
 }

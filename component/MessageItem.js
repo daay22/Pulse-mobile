@@ -11,12 +11,11 @@ import * as SMS from "expo-sms"
 function MessageItem({data}) {
 
   
-
   const sendSMS = async() =>{
-    if(data.recipients){
+    if(data.recipients || data.textMessage){
       await SMS.sendSMSAsync(
       data.recipients,
-      ''
+      data.textMessage
     );
     }
     
