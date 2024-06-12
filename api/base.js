@@ -7,7 +7,7 @@ import axios from "axios";
   });*/
 
   const http = axios.create({
-    baseURL: 'http://192.168.1.198:8000/api/v1/', 
+    baseURL: 'https://gtqm60dtp7.execute-api.us-east-1.amazonaws.com/dev/api/v1/', 
     timeout: 1000
   });
 
