@@ -46,7 +46,7 @@ function ClubMain() {
 
       
       
-            const ws = new WebSocket(`ws://192.168.1.198:8000/${id}`);
+            const ws = new WebSocket(`wss://6jmqtda5q8.execute-api.us-east-1.amazonaws.com/dev?entityId=${id}`);
       
       
             ws.addEventListener('open', (event) => {
