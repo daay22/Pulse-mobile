@@ -19,8 +19,9 @@ import Message from '../InClubScreens/Messages.js';
 import { useRoute } from '@react-navigation/native';
 import { Alert } from "react-native";
 import { saveOrder,loadOrder ,updateOrder,isAccepted,clearOrder} from '../../store/asyncStorage';
-import * as Application from 'expo-application';
+// import * as Application from 'expo-application';
 import {statusUpdates} from '../../StaticData'
+import DeviceInfo from 'react-native-device-info';
 
 Logs.enableExpoCliLogging()
 
@@ -40,13 +41,13 @@ function ClubMain() {
     useEffect(() => {
         const initWebSocket = async () => {
           try {
-            const id = await (Platform.OS === 'android' ? Application.getAndroidId() : Application.getIosIdForVendorAsync());
+            const id = DeviceInfo.getDeviceId();
             setDeviceId(id);
             console.log('DeviceID:' + id);
 
       
       
-            const ws = new WebSocket(`wss://6jmqtda5q8.execute-api.us-east-1.amazonaws.com/dev?entityId=${id}`);
+            const ws = new WebSocket(`ws://192.168.1.198:8000/${id}`);
       
       
             ws.addEventListener('open', (event) => {

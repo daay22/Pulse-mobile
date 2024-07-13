@@ -8,9 +8,9 @@
     <true/>
     <key>EXUpdatesLaunchWaitMs</key>
     <integer>0</integer>
-    <key>EXUpdatesSDKVersion</key>
-    <string>49.0.0</string>
+    <key>EXUpdatesRuntimeVersion</key>
+    <string>1.0.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://exp.host/@dtw8hn/boiler</string>
+    <string>https://u.expo.dev/4b54f4df-4de2-47fb-ba68-48f1ec7209b1</string>
   </dict>
 </plist>

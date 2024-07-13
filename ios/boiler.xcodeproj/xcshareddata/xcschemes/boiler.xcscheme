@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "boiler.app"
+               BuildableName = "Pulse.app"
                BlueprintName = "boiler"
                ReferencedContainer = "container:boiler.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "boiler.app"
+            BuildableName = "Pulse.app"
             BlueprintName = "boiler"
             ReferencedContainer = "container:boiler.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "boiler.app"
+            BuildableName = "Pulse.app"
             BlueprintName = "boiler"
             ReferencedContainer = "container:boiler.xcodeproj">
          </BuildableReference>

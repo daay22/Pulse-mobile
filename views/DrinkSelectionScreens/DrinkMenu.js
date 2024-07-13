@@ -7,7 +7,8 @@ import { MyContext } from '../../store/context';
 import PaymentService from '../../api/payments'
 import BottomDrawer from '../../component/BottomDrawer';
 import { useFocusEffect } from '@react-navigation/native';
-import * as Application from 'expo-application';
+// import * as Application from 'expo-application';
+import DeviceInfo from 'react-native-device-info';
 import { Platform} from 'react-native';
 
 Logs.enableExpoCliLogging()
@@ -124,7 +125,7 @@ function DrinkMenu({route,navigation}) {
       })
 
       console.log(cartRequest)
-      const deviceID =  Platform.OS === 'android' ? await Application.getAndroidId(): await Application.getIosIdForVendorAsync();
+      const deviceID =  DeviceInfo.getDeviceId();
 
       const requestObject= {BarId:bar._id,Cart:cartRequest,VenueId:state.venue._id,UserID:state.venue.user_id, Cost:totalCost, DeviceId: deviceID}
       const returnJson = await PaymentService.createPaymentIntent(requestObject)
