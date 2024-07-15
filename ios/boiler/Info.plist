@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>boiler</string>
+    <string>Pulse</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -27,12 +27,12 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>yes</string>
+          <string>com.pulsetheparty.app</string>
         </array>
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>3</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -49,9 +49,9 @@
       </dict>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your camera</string>
+    <string>Allow $(PRODUCT_NAME) to access your camera to capture photos and videos for various features</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
+    <string>Allow $(PRODUCT_NAME) to access your microphone to capture voices for various features</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
