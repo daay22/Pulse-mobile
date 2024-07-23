@@ -1,4 +1,4 @@
-package com.dtw8hn.boiler;
+package com.pulsetheparty.app;
 
 import android.os.Build;
 import android.os.Bundle;

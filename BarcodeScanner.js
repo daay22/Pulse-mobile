@@ -4,7 +4,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {Platform} from 'react-native';
-import * as Application from 'expo-application';
+// import * as Application from 'expo-application';
+import DeviceInfo from 'react-native-device-info';
 import { useNavigation,useIsFocused } from '@react-navigation/native';
 import { MyContext,MyProvider } from './store/context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -36,7 +37,7 @@ export default function HomeScreen() {
         console.log('Navigate straight to screen')
         setScanned(true);
         setActiveOrders(true);
-        const deviceID = await (Platform.OS === 'android' ? Application.getAndroidId() : Application.getIosIdForVendorAsync());
+        const deviceID = DeviceInfo.getDeviceId();;
 
         service.getVenueInfo(currentOrders[0].VenueID,deviceID)
     //TODO add in a call to the backend to check the status of all of the orders.
