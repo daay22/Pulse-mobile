@@ -1,13 +1,13 @@
 import React, { useEffect, useState,useContext } from 'react';
 import {View,Pressable, Button,FlatList,StyleSheet} from 'react-native';
-import { Logs } from 'expo'
+
 import { Text } from 'react-native-paper';
 import styles from '../../style';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import RecieptItem from '../../component/RecieptItem'
 import {MyContext } from '../../store/context';
 
-Logs.enableExpoCliLogging()
+
 
 function ReceiptScreen({navigation}) {
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, View} from 'react-native';
-import { Logs } from 'expo'
 
 
-Logs.enableExpoCliLogging()
+
+
 
 function BathroomSelectionScreen({navigation}) {
 

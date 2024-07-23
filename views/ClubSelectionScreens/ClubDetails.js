@@ -1,11 +1,11 @@
 import React from 'react';
 import {View,Pressable, Button as Submit,TouchableOpacity,StyleSheet} from 'react-native';
-import { Logs } from 'expo'
+
 import { Text,Button } from 'react-native-paper';
 import styles from '../../style';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-Logs.enableExpoCliLogging()
+
 
 function ClubDetails({navigation}) {
 

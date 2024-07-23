@@ -29,7 +29,7 @@ export default function App() {
   return (
   <SafeAreaView style={styles.container}>
     <StripeProvider
-      publishableKey="pk_test_51LlDznHYav5iWqq6j2SnnvtwAZXvha9jZERJeilcJeRtpFoZ6eu21ZjiTGun7vvstGLaWsL4FwpsoQ1X25MXxM4W00dzk1zCx9"
+      publishableKey="pk_live_51LlDznHYav5iWqq6ZVD09p48uNXUDufce0own5zDqO7Rm6JR0n2mVMhaisviumfPz05Y1VzSgLplhLjRHUFGFlSC00JODuDu7L"
       //urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
       //merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
     >

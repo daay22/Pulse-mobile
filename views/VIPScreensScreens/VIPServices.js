@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button,Text, View, Pressable} from 'react-native';
-import { Logs } from 'expo'
+
 import styles from "../../style"
 
-Logs.enableExpoCliLogging()
+
 
 function VIPService({navigation}) {
 

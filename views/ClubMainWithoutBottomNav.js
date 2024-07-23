@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, View} from 'react-native';
-import { Logs } from 'expo'
+
 import { BottomNavigation, Text } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from "../style"
 
-Logs.enableExpoCliLogging()
+
 
 function ClubMain({navigation}) {
 

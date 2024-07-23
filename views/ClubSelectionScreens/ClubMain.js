@@ -1,7 +1,7 @@
 import React , {useContext,useState,useEffect} from 'react';
 import {Platform} from 'react-native';
 import { MyContext } from '../../store/context.js'
-import { Logs } from 'expo'
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import styles from "../../style"
@@ -22,7 +22,7 @@ import { saveOrder,loadOrder ,updateOrder,isAccepted,clearOrder} from '../../sto
 import * as Application from 'expo-application';
 import {statusUpdates} from '../../StaticData'
 
-Logs.enableExpoCliLogging()
+
 
 //make it so if there is only 1 bar navigate directly to the menu
 const Tab = createBottomTabNavigator();

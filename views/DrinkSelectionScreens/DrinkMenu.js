@@ -1,6 +1,6 @@
 import React, { useEffect,useState,useContext } from 'react';
 import {View, Text, SectionList,Pressable, ActivityIndicator} from 'react-native';
-import { Logs } from 'expo'
+
 import DrinkItem from '../../component/DrinkItem'
 import styles from "../../style.js"
 import { MyContext } from '../../store/context';
@@ -10,7 +10,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as Application from 'expo-application';
 import { Platform} from 'react-native';
 
-Logs.enableExpoCliLogging()
+
 
 
 function DrinkMenu({route,navigation}) {
