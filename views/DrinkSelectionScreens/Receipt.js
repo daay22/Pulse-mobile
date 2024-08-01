@@ -19,6 +19,7 @@ function ReceiptScreen({navigation}) {
   useEffect(() => {
     (async () => {
       console.log('state has been seen in the recipt')
+      console.log(state)
       setShowList(state.inScreenOrders.length>0)
     })();
   }, [state]);

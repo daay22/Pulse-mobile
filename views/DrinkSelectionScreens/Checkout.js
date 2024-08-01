@@ -65,22 +65,21 @@ export default function Checkout({navigation,route}){
       const formatter = new Intl.DateTimeFormat('en-us',{hour:'2-digit',minute:'2-digit',second:'2-digit'})
       
       const pendingOrder = {
-        ID:'',
-        Bar:route.params.Data.Bar,
-        Cart: route.params.Data.Cart,
-        Customer: route.params.Data.Customer,
-        Pending:true,
-        Created: formatter.format(Date.now()),
-        Accepted:false,
+        readable_ID:route.params.Data.ID,
+        barName:route.params.Data.Bar.name,
+        barDescription:route.params.Data.Bar.description,
+        is_accepted:false,
+        approximateTime:'N/A',
+        item_list: JSON.parse(JSON.stringify(route.params.Data.Cart)),
         VenueID: state.venue._id,
-        ApproximateTime:''}
+        }
 
       console.log('Finished in the Checkout')
-     // await saveOrder(pendingOrder.Customer,pendingOrder)
+      await saveOrder(pendingOrder.readable_ID,pendingOrder)
       await setActiveOrders(true)
       console.log('updated state?: ')
       console.log(state)
-      //inScreenOrdersUpdate(pendingOrder)
+      inScreenOrdersUpdate(pendingOrder)
       navigation.navigate("Receipt")
     }
   };
@@ -89,6 +88,7 @@ export default function Checkout({navigation,route}){
     setClientSecret(route.params.Data.ClientKey)
     setEphemeralKey(route.params.Data.EphemeralKey)
     setCustomer(route.params.Data.Customer)
+    console.log()
     initializePaymentSheet();
   }, []);
 
