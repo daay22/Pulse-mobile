@@ -3,25 +3,23 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 // import * as Application from 'expo-application';
 import DeviceInfo from 'react-native-device-info';
-import { useNavigation,useIsFocused } from '@react-navigation/native';
-import { MyContext,MyProvider } from './store/context';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { MyContext, MyProvider } from './store/context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import service from './api/customer'
 import { Alert } from "react-native";
-import { loadOrder,updateAsyncFromDB, clearAsync as startFresh } from './store/asyncStorage';
+import { loadOrder, updateAsyncFromDB, clearAsync as startFresh } from './store/asyncStorage';
 
 export default function HomeScreen() {
   const [hasPermission, setHasPermission] = useState(null);
-  const {state,load,setActiveOrders, clear, inScreenOrdersUpdate} = useContext(MyContext);
+  const { state, load, setActiveOrders, clear, inScreenOrdersUpdate } = useContext(MyContext);
   const [scanned, setScanned] = useState(false);
   const [inputCode, setInputCode] = useState('');
   const navigation = useNavigation();
   const isFocused = useIsFocused()
-
-  
 
   useEffect(() => {
     async function setup() {
@@ -33,70 +31,66 @@ export default function HomeScreen() {
 
       var currentOrders = await loadOrder();
 
-      if(currentOrders.length>0){
+      if (currentOrders.length > 0) {
         console.log('Navigate straight to screen')
-        setScanned(true);
         setActiveOrders(true);
         const deviceID = DeviceInfo.getDeviceId();;
 
-        service.getVenueInfo(currentOrders[0].VenueID,deviceID)
-    //TODO add in a call to the backend to check the status of all of the orders.
-    .then(jsonData => {
-      console.log('Im in there')
-      console.log(jsonData)
-      if(jsonData.data.venue){ //jsonData.action.payload.data.venue
-        console.log(jsonData);
-        var submitObject = {...jsonData}
-        load(jsonData)
-        navigation.navigate('Club Main', { name: state.venue.venue_name })
-        setScanned(false)
-        
+        service.getVenueInfo(currentOrders[0].VenueID, deviceID)
+          //TODO add in a call to the backend to check the status of all of the orders.
+          .then(jsonData => {
+            console.log('Im in there')
+            console.log(jsonData)
+            if (jsonData?.data?.venue) { //jsonData.action.payload.data.venue
+              console.log(JSON.stringify(jsonData, null, 2), "jsonData Home Screen");
+              var submitObject = { ...jsonData }
+              load(jsonData)
+              navigation.navigate('Club Main', { name: state?.venue?.venue_name })
+
+            }
+            else {
+              Alert.alert('Not a valid Barcode')
+            }
+
+          }).catch(error => {
+            console.log(JSON.stringify(error, null, 2), "usefEffect Bar Scan");
+            Alert.alert('Scan Error', 'Failed to get information. Please try again', [{ text: 'OK', onPress: () => { } }])
+          });
       }
-      else{
-        Alert.alert('Not a valid Barcode')
-      }
-      
-    }).catch(error => {console.log(error)
-      Alert.alert('Scan Error','Failed to get information. Please try again',[{text:'OK',onPress:()=>  setScanned(false)}])
-  });
-      }
-      
+
 
 
 
     }
-    
+
     setup();
-    ;
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    console.log('Scanned is: '+ scanned)
-    if(!scanned){
-      setScanned(true);
     console.log(data)
+    setScanned(true);
     service.getVenueInfo(data)
-    // You can perform additional checks on the barcode data if needed
-    .then(jsonData => {
-      console.log(jsonData)
-      if(jsonData.data.venue){ //jsonData.action.payload.data.venue
-        clear();
-        load(jsonData)
-        navigation.navigate('Club Main', { name: state.venue.venue_name })
-        setScanned(false)
-        
-      }
-      else{
-        Alert.alert('Not a valid Barcode')
-      }
-      
-    })
-    .catch(error => {console.log(error)
-        Alert.alert('Scan Error','Failed to scan barcode or is invalid. Please try again',[{text:'OK',onPress:()=>  setScanned(false)}])
-    });
+      .then(jsonData => {
+        if (jsonData?.data?.venue) { //jsonData.action.payload.data.venue
+          clear();
+          load(jsonData)
+          console.log(JSON.stringify(jsonData, null, 2), "jsonData Home BAR code scan");
+          navigation.navigate('Club Main', { name: state?.venue?.venue_name })
+        }
+        else {
+          console.log(JSON.stringify(jsonData, null, 2), "else");
+
+          Alert.alert('Not a valid Barcode it is')
+        }
+
+      })
+      .catch(error => {
+        console.log(error)
+        console.log(JSON.stringify(error, null, 2), "handleBarCodeScanned function");
+        Alert.alert('Scan Error', 'Failed to scan barcode or is invalid. Please try again', [{ text: 'OK', onPress: () => { } }])
+      });
     //navigation.navigate('Club Main', { barcodeData: data });
-    }
-    
+
   };
 
   const handleInputChange = (text) => {
@@ -116,20 +110,33 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      { isFocused ? <BarCodeScanner
-        onBarCodeScanned={handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />: null
+      {isFocused ?
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+
+        // <BarCodeScanner
+        //   onBarCodeScanned={handleBarCodeScanned}
+        //   style={StyleSheet.absoluteFillObject}
+        // />
+        : null
       }
-      
+
+      {scanned && (
+        <View style={styles.overlayNew}>
+          <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />
+        </View>
+      )}
+
       <View style={styles.box}>
         <View style={[styles.corner, styles.topLeft]} />
         <View style={[styles.corner, styles.topRight]} />
         <View style={[styles.corner, styles.bottomLeft]} />
         <View style={[styles.corner, styles.bottomRight]} />
       </View>
-       <TouchableOpacity style={styles.actionButton} onPress={()=>testNav()}>
-       <Ionicons name="document-text"   size={32} color="white" />
+      <TouchableOpacity style={styles.actionButton} onPress={() => testNav()}>
+        <Ionicons name="document-text" size={32} color="white" />
       </TouchableOpacity>
     </View>
   );
@@ -178,9 +185,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'white',
   },
+  overlayNew: {
+    position: 'absolute',
+    justifyContent: 'center',
+    bottom: 20,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
   box: {
     position: 'absolute',
-    justifyContent:'center',
+    justifyContent: 'center',
     width: Dimensions.get('window').width * 0.6,
     height: Dimensions.get('window').height * 0.3,
     top: (Dimensions.get('window').height * 0.6 - Dimensions.get('window').height * 0.081) / 2,

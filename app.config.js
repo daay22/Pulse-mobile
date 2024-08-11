@@ -17,11 +17,11 @@ module.exports =  {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.pulsetheparty.app",
-      buildNumber: "3"
+      buildNumber: "5"
     },
     android: {
       package: "com.pulsetheparty.app",
-      versionCode: 1,
+      versionCode: 2,
       adaptiveIcon: {
         foregroundImage: "./assets/Pulse-App.jpg",
         backgroundColor: "black"
