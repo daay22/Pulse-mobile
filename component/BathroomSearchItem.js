@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity,Alert } from 'react-native';
 import { Card, Paragraph,Avatar } from 'react-native-paper';
-import { Logs } from 'expo'
+
 import { useEffect } from 'react';
 import {Genders} from "../StaticData"
 
-Logs.enableExpoCliLogging()
+
 
 function getPictureSize(){
   return {

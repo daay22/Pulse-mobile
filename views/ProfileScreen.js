@@ -2,9 +2,9 @@ import React, { useState, useEffect} from 'react';
 import { Button, Text, TextInput, View} from 'react-native';
 import styles from '../style';
 //import ImageIconHolder from '../assets/ImageIconHolder'
-import { Logs } from 'expo'
 
-Logs.enableExpoCliLogging()
+
+
 
 
 function ProfileScreen({route, navigation}){

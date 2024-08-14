@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, View, Text, TextInput, Image, Dimensions, Platform, StatusBar, ScrollView } from 'react-native';
-import { Logs } from 'expo'
+
 import styles from "../../style.js"
 import { formatDollar } from '../../utilities.js'
 import { DrinkTypes } from "../../StaticData.js"
 import NumericStepper from '../../component/NumericStepper.js';
 
-Logs.enableExpoCliLogging()
+
+
 
 function getPictureSize() {
   return {
@@ -16,6 +17,14 @@ function getPictureSize() {
   };
 }
 
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    .replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+}
 
 
 function ClubDetails({ route, navigation }) {
@@ -28,8 +37,9 @@ function ClubDetails({ route, navigation }) {
   }
 
   const addtoCart = async () => {
+    console.log('here')
     var drinkObject = {
-      ID: route.params.DrinkChoice._id,
+      ID: uuidv4(),
       Name: route.params.DrinkChoice.name,
       Cost: route.params.DrinkChoice.cost,
       Image: route.params.DrinkChoice.image,
@@ -37,8 +47,11 @@ function ClubDetails({ route, navigation }) {
       NumberOfDrinks: count
     }
 
+    console.log(drinkObject)
+
     const cart = route.params.ShoppingCart
     cart.push(drinkObject)
+
 
     navigation.navigate("Drink Menu", { Bar: route.params.Bar, ShoppingCart: cart })
   }
@@ -61,21 +74,6 @@ function ClubDetails({ route, navigation }) {
 
         <View style={{ backgroundColor: "white", marginTop: 8, marginBottom: 16, paddingLeft: 16 }}>
           <Text style={[styles.headerSubLabel, styles.verticalFormat]} >{route.params.DrinkChoice.item_type + " Options"}</Text>
-
-          {route.params.DrinkChoice.item_type == DrinkTypes.Cocktail &&
-            <View>
-              <Text>Cocktail DropDown</Text>
-
-            </View>
-
-
-          }
-          {route.params.DrinkChoice.item_type == DrinkTypes.Wine &&
-            <Text>Wine DropDown</Text>
-          }
-          {route.params.DrinkChoice.item_type == DrinkTypes.Beer &&
-            <Text>Beer DropDown</Text>
-          }
         </View>
 
 

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Button, View, Text, FlatList} from 'react-native';
-import { Logs } from 'expo'
+
 import BarSelectionItem from '../../component/BarSelectionItem.js'
 import { MyContext } from '../../store/context.js';
 
-Logs.enableExpoCliLogging()
+
 
 function BarSelection({navigation}) {
 

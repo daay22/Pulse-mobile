@@ -40,7 +40,8 @@ export default function Checkout({navigation,route}){
 
             var cost = 0;
             var itemList = route.params.Data.item_list
-            for(var iter=0;iter<itemList.length;iter++){
+            for(var iter=0;iter<route.params.Data.item_list.length;iter++){
+              console.log(itemList[iter])
               console.log(itemList[iter].Cost +' x ' + itemList[iter].NumberOfDrinks)
                 cost+= itemList[iter].Cost* itemList[iter].NumberOfDrinks
             }

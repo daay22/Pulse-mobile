@@ -20,13 +20,15 @@ const reducer = (state, action) => {
       return { ...state, venue: action.payload.data.venue, bars: action.payload.data.bars,
         items: action.payload.data.items, bathrooms: action.payload.data.bathrooms,inScreenOrders:action.payload.data.orders };
     case 'ACTIVEORDER':
-      console.log('setting active orders to:' + action.payload)
+      console.log('setting active orders to: ' + action.payload)
       return {...state,activeOrders:action.payload}
     case 'INSCREENORDERUPDATE':
       console.log('What am i setting the context to?')
       console.log(action)
       console.log(action.payload)
-      const updatedOrders = [...state.inScreenOrders,action.payload]
+      const item = state.inScreenOrders.find(item => item.readable_ID === action.payload.readable_ID);
+      
+      const updatedOrders = item ? state.inScreenOrders.map(item => item.readable_ID === action.payload.readable_ID ? action.payload : item): [...state.inScreenOrders,action.payload]
       return{
         ...state,
         inScreenOrders: updatedOrders,
@@ -38,7 +40,8 @@ const reducer = (state, action) => {
      const filteredList = state.inScreenOrders.filter(item =>item.readable_ID != action.payload)
      return{
       ...state,
-      inScreenOrders: filteredList}
+      inScreenOrders: filteredList,
+      activeOrders:filteredList.lengh>0}
     case 'ACCEPTORDER':
         console.log('Accept the order here:')
         console.log(action.payload)    

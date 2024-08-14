@@ -1,7 +1,7 @@
-import React , {useContext,useState,useEffect} from 'react';
+import React , {useContext,useState,useEffect,useRef} from 'react';
 import {Platform} from 'react-native';
 import { MyContext } from '../../store/context.js'
-import { Logs } from 'expo'
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import styles from "../../style"
@@ -21,9 +21,9 @@ import { Alert } from "react-native";
 import { saveOrder,loadOrder ,updateOrder,isAccepted,clearOrder} from '../../store/asyncStorage';
 // import * as Application from 'expo-application';
 import {statusUpdates} from '../../StaticData'
-import DeviceInfo from 'react-native-device-info';
+import * as SecureStore from 'expo-secure-store';
 
-Logs.enableExpoCliLogging()
+
 
 //make it so if there is only 1 bar navigate directly to the menu
 const Tab = createBottomTabNavigator();
@@ -32,23 +32,30 @@ function ClubMain() {
 
     const navigation = useNavigation();
     const {state,inScreenOrdersUpdate,screenRemoveOrder,setActiveOrders,acceptedOrder} = useContext(MyContext);
-    const [deviceID, setDeviceId] = useState([]);
     const [currentOrders, setCurrentOrders] = useState([]);
+    const wsRef = useRef(null);
 
-    console.log('what is there')
     console.log(state.inScreenOrders)
+    
+    function removeSpecialCharacters(str) {
+      return str.replace(/[^a-zA-Z0-9 ]/g, '');
+    }
 
     useEffect(() => {
+      let ws;
         const initWebSocket = async () => {
           try {
-            const id = DeviceInfo.getDeviceId();
-            setDeviceId(id);
+            const id = await SecureStore.getItemAsync('secure_deviceid');
             console.log('DeviceID:' + id);
 
+            console.log(id);
+
       
-      
-            const ws = new WebSocket(`ws://192.168.1.198:8000/${id}`);
-      
+            console.log(typeof(id))
+            ws = new WebSocket(`wss://6jmqtda5q8.execute-api.us-east-1.amazonaws.com/dev?entityId=${id}`);
+            wsRef.current = ws;
+
+            console.log(ws)
       
             ws.addEventListener('open', (event) => {
               console.log('WebSocket connection opened:' + event);
@@ -66,9 +73,6 @@ function ClubMain() {
               // Handle different events
               switch (payload.event) {
                 case 'newOrder': {
-                    console.log('When am I happening?')
-                    console.log(state)
-                    await saveOrder(payload.data.order.readable_ID,payload.data.order);
 
                     var inScreenDataObject = {...payload.data.order,barName:payload.data.bar.name,barDescription:payload.data.bar.description}
 
@@ -126,12 +130,15 @@ function ClubMain() {
             ws.onclose = () => {
               console.log('WebSocket closed');
             };
+
+            
+
+
+            console.log('socket')
+            console.log('wsRef.current (inside initWebSocket):', wsRef.current);
+            console.log(ws)
       
-      
-            return () => {
-              // Clean up WebSocket connection
-              ws.close();
-            };
+            
           } catch (error) {
             console.error('Error initializing WebSocket:', error);
           }
@@ -139,6 +146,13 @@ function ClubMain() {
       
       
         initWebSocket();
+
+        return () => {
+          if (wsRef.current) {
+              wsRef.current.close();
+              console.log('WebSocket connection closed in cleanup');
+          }
+      };
       }, []);
 
       useEffect(() => {
@@ -155,6 +169,7 @@ function ClubMain() {
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
             const isActive = state.inScreenOrders.length> 0
+            console.log('Current in screen orders = '+ state.inScreenOrders.length)
             if(isActive){
                 Alert.alert('You have active orders!', 'Please complete or cancel your active orders before leaving this screen.');
                 e.preventDefault();

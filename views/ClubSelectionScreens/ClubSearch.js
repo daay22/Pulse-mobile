@@ -5,8 +5,8 @@ import * as Location from 'expo-location';
 import { Searchbar } from 'react-native-paper';
 import service from "../../api/user.js"
 
-import { Logs } from 'expo'
-Logs.enableExpoCliLogging()
+
+
 
 
 function ClubSearch({navigation}) {

@@ -1,13 +1,13 @@
 import React, { useEffect, useState,useContext } from 'react';
 import {View,Pressable, Button,FlatList,StyleSheet} from 'react-native';
-import { Logs } from 'expo'
+
 import { Text } from 'react-native-paper';
 import styles from '../../style';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import RecieptItem from '../../component/RecieptItem'
 import {MyContext } from '../../store/context';
 
-Logs.enableExpoCliLogging()
+
 
 function ReceiptScreen({navigation}) {
 
@@ -19,6 +19,7 @@ function ReceiptScreen({navigation}) {
   useEffect(() => {
     (async () => {
       console.log('state has been seen in the recipt')
+      console.log(state)
       setShowList(state.inScreenOrders.length>0)
     })();
   }, [state]);

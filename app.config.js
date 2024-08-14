@@ -17,7 +17,7 @@ module.exports =  {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.pulsetheparty.app",
-      buildNumber: "5"
+      buildNumber: "6"
     },
     android: {
       package: "com.pulsetheparty.app",

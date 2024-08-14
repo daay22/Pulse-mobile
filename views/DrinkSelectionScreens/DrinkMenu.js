@@ -1,6 +1,6 @@
 import React, { useEffect,useState,useContext } from 'react';
 import {View, Text, SectionList,Pressable, ActivityIndicator} from 'react-native';
-import { Logs } from 'expo'
+
 import DrinkItem from '../../component/DrinkItem'
 import styles from "../../style.js"
 import { MyContext } from '../../store/context';
@@ -8,10 +8,21 @@ import PaymentService from '../../api/payments'
 import BottomDrawer from '../../component/BottomDrawer';
 import { useFocusEffect } from '@react-navigation/native';
 // import * as Application from 'expo-application';
-import DeviceInfo from 'react-native-device-info';
-import { Platform} from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
-Logs.enableExpoCliLogging()
+function generateReadableID(){
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomChars = '';
+  for (let i = 0; i < 3; i++) {
+    randomChars += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  
+  const now = new Date();
+  const hours = ('0' + now.getHours()).slice(-2);
+  const minutes = ('0' + now.getMinutes()).slice(-2);
+ 
+   return randomChars + '-' + hours + minutes;
+ }
 
 
 function DrinkMenu({route,navigation}) {
@@ -125,9 +136,10 @@ function DrinkMenu({route,navigation}) {
       })
 
       console.log(cartRequest)
-      const deviceID =  DeviceInfo.getDeviceId();
+      const deviceID = await SecureStore.getItemAsync('secure_deviceid');
+      const readableId = generateReadableID()
 
-      const requestObject= {BarId:bar._id,Cart:cartRequest,VenueId:state.venue._id,UserID:state.venue.user_id, Cost:totalCost, DeviceId: deviceID}
+      const requestObject= {BarId:bar._id,Cart:cartRequest,VenueId:state.venue._id,UserID:state.venue.user_id, Cost:totalCost, DeviceId: deviceID,ReadableId:readableId}
       const returnJson = await PaymentService.createPaymentIntent(requestObject)
       console.log("created payment Intent")
       var checkoutObject = {
@@ -136,7 +148,8 @@ function DrinkMenu({route,navigation}) {
         ClientKey: returnJson.clientSecret,
         EphemeralKey: returnJson.ephemeralKey,
         Customer: returnJson.customer,
-        Cost: returnJson.totalCost
+        Cost: returnJson.totalCost,
+        ID:readableId
       }
       console.log(checkoutObject)
       
