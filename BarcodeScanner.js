@@ -5,7 +5,6 @@ import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Dimensions
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Platform } from 'react-native';
 // import * as Application from 'expo-application';
-import DeviceInfo from 'react-native-device-info';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { MyContext, MyProvider } from './store/context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -102,7 +101,7 @@ export default function App() {
         else {
           console.log(JSON.stringify(jsonData, null, 2), "else");
 
-          Alert.alert('Not a valid Barcode it is')
+          Alert.alert('Not a valid barcode')
         }
 
       })
@@ -132,7 +131,7 @@ export default function App() {
 
       {scanned && (
         <View style={styles.overlayNew}>
-          <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />
+          <Button title={'Scan Again'} color="#4F47C7" style={styles.tryAgainButton} onPress={() => setScanned(false)} />
         </View>
       )}
 
@@ -165,6 +164,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#4F47C7', // Your desired background color
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 5, // Add elevation for a slight shadow effect (Android)
+    shadowColor: '#000', // Shadow color (iOS)
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset (iOS)
+    shadowOpacity: 0.8, // Shadow opacity (iOS)
+    shadowRadius: 3, // Shadow radius (iOS)
+  },
+  tryAgainButton: {
+ // Half of the width and height to make it circular
+    
     elevation: 5, // Add elevation for a slight shadow effect (Android)
     shadowColor: '#000', // Shadow color (iOS)
     shadowOffset: { width: 0, height: 2 }, // Shadow offset (iOS)
