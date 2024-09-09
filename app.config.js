@@ -21,7 +21,7 @@ module.exports =  {
     },
     android: {
       package: "com.pulsetheparty.app",
-      versionCode: 2,
+      versionCode: 3,
       adaptiveIcon: {
         foregroundImage: "./assets/Pulse-App.jpg",
         backgroundColor: "black"

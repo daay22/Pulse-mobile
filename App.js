@@ -16,8 +16,9 @@ import Checkout from './views/DrinkSelectionScreens/Checkout.js'
 import RecieptDetails from "./views/RecieptDetails.js"
 import { MyProvider, MyContext } from './store/context';
 import { StripeProvider } from '@stripe/stripe-react-native';
-import { SafeAreaView, StyleSheet } from 'react-native';
-
+import { SafeAreaView, StyleSheet, AppState } from 'react-native';
+import * as Updates from 'expo-updates';
+import { fetchUpdateAsync, reloadAsync } from "expo-updates";
 
 
 
@@ -26,10 +27,31 @@ const Stack = createStackNavigator();
 
 export default function App() {
 
+  useEffect(() => {
+    AppState.addEventListener("change", (nextAppState) => {
+    checkAppUpdates();
+    });
+    }, []);
+    
+    
+    
+    const checkAppUpdates = async () => {
+    if (!__DEV__) {
+    try {
+    const { isAvailable } = await Updates.checkForUpdateAsync();
+    if (isAvailable) {
+    await fetchUpdateAsync();
+    await reloadAsync();
+    }
+    } catch (error) { }
+    }
+    };
+
   return (
   <SafeAreaView style={styles.container}>
     <StripeProvider
-      publishableKey="pk_live_51LlDznHYav5iWqq6ZVD09p48uNXUDufce0own5zDqO7Rm6JR0n2mVMhaisviumfPz05Y1VzSgLplhLjRHUFGFlSC00JODuDu7L"
+      publishableKey="pk_test_51LlDznHYav5iWqq6XF5s9XTIQWj8BfSHtbFWt1S7fzT8S26sz1uWXvEjNkWTPJi5rAi3Q6zGgVdOJOaOvLrB9OQU00tazeUZI8"
+      // prod publishableKey="pk_live_51LlDznHYav5iWqq6ZVD09p48uNXUDufce0own5zDqO7Rm6JR0n2mVMhaisviumfPz05Y1VzSgLplhLjRHUFGFlSC00JODuDu7L"
       //urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
       //merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
     >
