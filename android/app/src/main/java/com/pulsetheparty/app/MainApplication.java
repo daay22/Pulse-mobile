@@ -1,10 +1,17 @@
 package com.pulsetheparty.app;
 
+import static com.facebook.react.config.ReactFeatureFlags.*;
+
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import org.jetbrains.annotations.Nullable;
+import android.content.Context;
 import android.app.Application;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 
-import com.boiler.BuildConfig;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -58,12 +65,22 @@ public class MainApplication extends Application implements ReactApplication {
     return mReactNativeHost;
   }
 
+
+  @Override
+  public Intent registerReceiver(@Nullable BroadcastReceiver receiver, IntentFilter filter) {
+    if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+        return super.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+    } else {
+        return super.registerReceiver(receiver, filter);
+    }
+  }
+
   @Override
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     if (!BuildConfig.REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS) {
-      ReactFeatureFlags.unstable_useRuntimeSchedulerAlways = false;
+//     ReactFeatureFlags.unstable_useRuntimeSchedulerAlways = false;
     }
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.

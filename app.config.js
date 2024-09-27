@@ -2,7 +2,7 @@ module.exports =  {
   expo: {
     name: "Pulse",
     slug: "pulse",
-    version: "1.0.0",
+    version: "1.0.1",
     orientation: "portrait",
     icon: "./assets/Pulse-App.jpg",
     userInterfaceStyle: "light",
@@ -17,14 +17,14 @@ module.exports =  {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.pulsetheparty.app",
-      buildNumber: "6"
+      buildNumber: "1"
     },
     android: {
       package: "com.pulsetheparty.app",
-      versionCode: 3,
+      versionCode: 4,
       adaptiveIcon: {
         foregroundImage: "./assets/Pulse-App.jpg",
-        backgroundColor: "black"
+        backgroundColor: "#ffffff"
       }
     },
     web: {

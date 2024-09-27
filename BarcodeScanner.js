@@ -1,7 +1,7 @@
 // screens/HomeScreen.js
 
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Dimensions, AppState } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Platform } from 'react-native';
 // import * as Application from 'expo-application';
@@ -11,6 +11,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import service from './api/customer'
 import { Alert } from "react-native";
 import { loadOrder, updateAsyncFromDB, clearAsync as startFresh } from './store/asyncStorage';
+import * as Updates from 'expo-updates';
+import { CameraView, Camera } from "expo-camera";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -19,6 +21,29 @@ export default function App() {
   const [inputCode, setInputCode] = useState('');
   const navigation = useNavigation();
   const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (AppState.currentState === "active") {
+      checkAppUpdates();
+    }
+    AppState.addEventListener("change", () => {
+      checkAppUpdates();
+    });
+  }, []);
+
+  const checkAppUpdates = async () => {
+    if (!__DEV__) {
+      try {
+        const { isAvailable } = await Updates.checkForUpdateAsync();
+        if (isAvailable) {
+          navigation.navigate("AppAutoUpdateScreen");
+        }
+      } catch (error) {
+        captureException(error);
+      }
+    }
+  };
+
 
   useEffect(() => {
     async function setup() {

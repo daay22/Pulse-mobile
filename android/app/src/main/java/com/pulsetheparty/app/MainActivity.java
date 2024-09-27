@@ -3,8 +3,6 @@ package com.pulsetheparty.app;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.boiler.BuildConfig;
-import com.boiler.R;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
