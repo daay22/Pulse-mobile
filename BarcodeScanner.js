@@ -1,7 +1,7 @@
 // screens/HomeScreen.js
 
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Dimensions, AppState } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Platform } from 'react-native';
 // import * as Application from 'expo-application';

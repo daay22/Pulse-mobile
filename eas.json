@@ -9,14 +9,13 @@
       "distribution": "internal"
     },
     "staging": {
-      "channel": "staging",
+      "channel": "prod-1.0.1",
       "ios": {
         "image": "stable",
         "simulator": false
       },
       "android": {
-        "buildType": "app-bundle",
-        "gradleCommand": ":app:bundleRelease"
+        "buildType": "apk"
       }
     },
     "preview": {
