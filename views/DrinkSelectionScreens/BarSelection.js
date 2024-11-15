@@ -11,7 +11,7 @@ function BarSelection({navigation}) {
   const {state} = useContext(MyContext)
 
     return (
-    <View>
+    <View style={{flex:1,backgroundColor:'white'}}>
         <FlatList
         data={state.bars}
         renderItem={(item) => <BarSelectionItem data={item} navigation={navigation} />}

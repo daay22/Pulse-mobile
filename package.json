@@ -6,8 +6,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "build-android": "eas build -p android --profile staging",
-    "build-ios": "eas build --clear-cache -p ios --profile staging --local",
+    "build-android": "eas build -p android --profile staging .env.production",
+    "build-ios": "eas build --clear-cache -p ios --profile staging --local .env.production",
     "update-stage": "eas update --branch staging"
   },
   "dependencies": {

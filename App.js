@@ -1,6 +1,6 @@
 // App.js
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BarcodeScannerScreen  from './BarcodeScanner.js';
@@ -28,6 +28,9 @@ const Stack = createStackNavigator();
 export default function App() {
 
   useEffect(() => {
+    console.log("Davion checks enviroment")
+    console.log(process.env.EXPO_PUBLIC_STRIPE_PUBLISHER_KEY)
+
     AppState.addEventListener("change", (nextAppState) => {
     checkAppUpdates();
     });
@@ -50,7 +53,7 @@ export default function App() {
   return (
   <SafeAreaView style={styles.container}>
     <StripeProvider
-      publishableKey="pk_test_51LlDznHYav5iWqq6XF5s9XTIQWj8BfSHtbFWt1S7fzT8S26sz1uWXvEjNkWTPJi5rAi3Q6zGgVdOJOaOvLrB9OQU00tazeUZI8"
+      publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHER_KEY}
       // prod publishableKey="pk_live_51LlDznHYav5iWqq6ZVD09p48uNXUDufce0own5zDqO7Rm6JR0n2mVMhaisviumfPz05Y1VzSgLplhLjRHUFGFlSC00JODuDu7L"
       //urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
       //merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay

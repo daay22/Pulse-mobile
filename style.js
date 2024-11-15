@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor:'white'
     },
     headerContainer: {
     alignItems: 'center',
@@ -46,9 +47,8 @@ const styles = StyleSheet.create({
       paddingVertical: 6,
       paddingBottom: 6,
       marginBottom:12,
-      backgroundColor:"#4F47C7",
-      paddingHorizontal:8
-      
+      backgroundColor:"black",
+      marginHorizontal:8
     },
     actionButton: {
       position: 'absolute',
@@ -66,24 +66,45 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.8, // Shadow opacity (iOS)
       shadowRadius: 3, // Shadow radius (iOS)
     },
+    cancelButton: {
+      // Half of the width and height to make it circular
+         
+         elevation: 5, // Add elevation for a slight shadow effect (Android)
+         shadowColor: '#000', // Shadow color (iOS)
+         shadowOffset: { width: 0, height: 2 }, // Shadow offset (iOS)
+         shadowOpacity: 0.8, // Shadow opacity (iOS)
+         shadowRadius: 3, // Shadow radius (iOS)
+       },
 
     bigHeaderText:{
         fontWeight: 'bold',
         fontSize: 40,
     },
     primaryColorHeader:{
-      color:"#4F47C7",
+      
       fontWeight: 'bold',
         fontSize: 40,
     },
+    drinkMenuHeader:{
+      alignItems: 'center',  
+      fontWeight: 'bold',
+      fontSize: 20,
+    },
     checkoutData:{
-      color:"#4F47C7",
       fontWeight: 'bold',
         fontSize: 32,
     },
     headerText: {
       fontWeight: 'bold',
       fontSize: 32,
+      borderTopWidth:3,
+    borderColor:'lightgrey',
+    
+    },
+    drinkHeaderText: {
+      fontWeight: 'bold',
+      fontSize: 32,
+    
     },
     headerSubLabel:{
       fontWeight: 'bold',
@@ -99,6 +120,9 @@ const styles = StyleSheet.create({
     },
     checkoutText:{
       fontSize:24,
+    },
+    checkoutColor:{
+      color:'grey',
     },
     
 

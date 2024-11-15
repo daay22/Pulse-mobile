@@ -121,11 +121,11 @@ export default function Checkout({navigation,route}){
     return(
         
         <View style={styles.container}>
-         <View style={[{flexDirection:"row",marginBottom:24}]}>
+         <View style={[{flexDirection:"row",marginBottom:24,borderBottomWidth:1,paddingBottom:8,borderColor:'lightgrey'}]}>
           <Button labelStyle={{fontSize: 30}} icon="map-marker"/>
           <View style={[{flexDirection:"column"}]}>
           <Text style={[styles.checkoutData]}>{barName}</Text>
-          <Text>{barDescription}</Text>
+          <Text style={{color:"#4F47C7"}}>{barDescription}</Text>
           </View>
           
           </View>
@@ -139,7 +139,7 @@ export default function Checkout({navigation,route}){
           </View> */}
           
   
-          <Text style={[styles.bigHeaderText,styles.primaryColor,styles.marginLeftHeader,styles.bottomHeaderMargin]}>Items</Text>
+          <Text style={[styles.bigHeaderText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>Items</Text>
           <FlatList
           data={reciept}
           renderItem={(item) => <RecieptItem data={item}
@@ -148,18 +148,17 @@ export default function Checkout({navigation,route}){
           
           <Divider style={[{backgroundColor:"black",margin:12,}]}/>
           <View style={[styles.stretchFormItems,styles.verticalFormat]}>
-              <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>Subtotal</Text>
-              <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>(${subTotalBill})</Text>
+              <Text style={[styles.checkoutText,styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>Subtotal</Text>
+              <Text style={[styles.checkoutText,styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>(${subTotalBill})</Text>
           </View>
           <View style={[styles.stretchFormItems,styles.verticalFormat]}>
-              <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>Service Charge</Text>
-              <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>(${((subTotalBill*.06)+.5).toFixed(2)})</Text>
+              <Text style={[styles.checkoutText, styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>Service Charge</Text>
+              <Text style={[styles.checkoutText, styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>(${((subTotalBill*.06)+.5).toFixed(2)})</Text>
           </View>
           <View style={[styles.stretchFormItems,styles.verticalFormat]}>
-              <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>Total</Text>
-              <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>${totalBill}</Text>
+              <Text style={[styles.checkoutText, styles.marginLeftHeader,styles.bottomHeaderMargin]}>Total</Text>
+              <Text style={[styles.checkoutText, styles.marginLeftHeader,styles.bottomHeaderMargin]}>${totalBill}</Text>
           </View>
-  
   
   
           <Pressable onPress={() =>  {openPaymentSheet()}} style={[styles.submitButton]}>

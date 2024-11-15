@@ -1,9 +1,10 @@
 import React,{useEffect,useState} from 'react';
-import {Platform, View, Text, FlatList, Pressable} from 'react-native';
+import {Platform, View, Text, FlatList, Pressable, Button as CancelButton,Alert} from 'react-native';
 import { Divider,Button } from 'react-native-paper';
 import styles from "../style.js"
 import RecieptItem from "../component/CheckoutItem.js"
-import {loadOrder} from "../store/asyncStorage.js"
+import {loadOrder,clearOrder} from "../store/asyncStorage.js"
+import service from "../api/orders.js"
 
 
 export default function Checkout({navigation,route}){
@@ -16,10 +17,59 @@ export default function Checkout({navigation,route}){
     const [reciept,setReciept]=useState("")
     const [orderID,setOrderID]=useState("")
 
+
+    const handlePress = () => {
+      // Display confirmation dialog
+      Alert.alert(
+        "Confirm Action",        // Title
+        "Are you sure you want to proceed?", // Message
+        [
+          {
+            text: "No", // 'No' button
+            onPress: () => console.log("Action cancelled"), // Logic for 'No'
+            style: "cancel"
+          },
+          {
+            text: "Yes", // 'Yes' button
+            onPress: () => {
+              // Logic to run if 'Yes' is pressed
+              console.log("Action confirmed");
+              service.cancelOrder(route.params.Data.payment_ID,{cancel_reason:'User Cancelled',update_ID:route.params.Data.bar_ID})
+              .then(() => {
+                Alert.alert(
+                  "Order Cancelled",
+                  "The order was successfully cancelled.",
+                  [{ text: "OK",
+                    onPress: async () => {
+                      // Navigate to another screen after hitting OK
+                      clearOrder(route.params.Data.readable_ID)
+                    screenRemoveOrder(route.params.Data.readable_ID)
+                    var currentOrders = await loadOrder();
+                    setCurrentOrders(currentOrders)
+                    if(currentOrders.length===0){
+                        setActiveOrders(false);
+                    }
+                      navigation.navigate('Reciept'); // Replace 'NextScreen' with your target screen
+                    },
+                   }]
+                );
+              })
+              clearOrder(route.params.Data.readable_ID)
+              //TODO
+              //update the stores here if successful
+
+            }
+          }
+        ],
+        { cancelable: false } // Can't dismiss by tapping outside the dialog
+      );
+    };
+
     useEffect(()=>{
         async function initialize(){
           console.log('Davion in the recipt')
-            console.log(route.params.Data.item_list)
+          console.log(route.params.Data)  
+          console.log(route.params.Data.item_list)
 
             setOrderID(route.params.Data.readable_ID)
             setBar(route.params.Data.barName)
@@ -103,6 +153,9 @@ export default function Checkout({navigation,route}){
               <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>Total</Text>
               <Text style={[styles.checkoutText,styles.marginLeftHeader,styles.bottomHeaderMargin]}>${totalBill}</Text>
           </View>
+          {!route.params.Data.is_accepted &&
+          <CancelButton title={'Cancel'} color="#4F47C7" style={styles.cancelButton} onPress={() => handlePress()} />
+          }
          </View> 
         
     )

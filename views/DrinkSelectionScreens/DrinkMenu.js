@@ -1,5 +1,5 @@
 import React, { useEffect,useState,useContext } from 'react';
-import {View, Text, SectionList,Pressable, ActivityIndicator} from 'react-native';
+import {View, Text, SectionList,Pressable, ActivityIndicator,StyleSheet} from 'react-native';
 
 import DrinkItem from '../../component/DrinkItem'
 import styles from "../../style.js"
@@ -156,13 +156,32 @@ function DrinkMenu({route,navigation}) {
       navigation.navigate("Checkout", { Data: checkoutObject })
     }
 
-    const renderItem = ({ item }) => (
-        <DrinkItem data={item} shoppingCart={shoppingCart} bar ={bar} />
+    const renderItem = ({ item,index,section }) => (
+        <DrinkItem data={item} index={index} section={section} shoppingCart={shoppingCart} bar ={bar} />
       );
 
-    return (
-    <View style={{flex:1,marginHorizontal:8}}>
+    return ( 
+    <View style={{flex:1,backgroundColor: "white",}}>
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
+
+      <View style={{  alignItems: 'center'}}>
+        <Text style={[styles.drinkMenuHeader]}>{route.params.Bar.name}</Text>
+     <Text style={{paddingTop:5,paddingBottom:3}}>{route.params.Bar.description}</Text>
+      </View>
+
+
+      <View style={boxStyles.container}>
+        <View style={boxStyles.ovalBox}>
+        <Text>
+      <Text style={boxStyles.boldText}>Estimated Time: </Text>
+      <Text style={boxStyles.normalText}>N/A</Text>
+    </Text>
+        </View>
+    </View>
+
+      
+      
+
         <SectionList 
             sections={DATA}
             keyExtractor={(item,index) => item+index}
@@ -188,3 +207,30 @@ function DrinkMenu({route,navigation}) {
 }
 
 export default DrinkMenu;
+
+
+
+const boxStyles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  ovalBox: {
+    width: 200, // Adjust as needed
+    height: 50, // Adjust as needed
+    backgroundColor: '#f0f0f0',
+    borderRadius: 25, // Half of the height to make it oval
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    paddingHorizontal: 10,
+  },
+  boldText: {
+    fontWeight: 'bold',
+  },
+  normalText: {
+    fontWeight: 'normal',
+  },
+});

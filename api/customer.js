@@ -7,6 +7,7 @@ class CustomerService {
     async getVenueInfo(venueID, deviceID = '') {
         const url = `customer/${venueID}/${deviceID}`;
         let response = "";
+        console.log('venue url: '+ url)
         try {
             const responseData = await http.get(url, { timeout: 15000 });
             response = responseData.data;

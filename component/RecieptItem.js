@@ -4,8 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const RecieptItem = ({ data,navigation }) => {
 
-  console.log('dave check the vibe')
-  console.log(data)
   return (
     <TouchableOpacity onPress={() => {navigation.navigate("Reciept Details",{Data:data.item})}} style={styles.container}>
       <View style={styles.leftContainer}>

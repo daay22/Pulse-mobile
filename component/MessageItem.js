@@ -25,7 +25,7 @@ function MessageItem({data}) {
   return (
     <Card class="mb-2" style={{marginVertical:2}} mode="elevated" elevated="5" onPress={() => {sendSMS()}}>
         <Card.Title leftStyle = {{width: Dimensions.get('window').width *.20,
-    height: Dimensions.get('window').width *.20}}  left={() =>  <MaterialCommunityIcons style name="chat" size={32} color="white" />} titleStyle={{fontWeight: 'bold',color:'#4F47C7'}} title={data.groupName} subtitle={data.message} />
+    height: Dimensions.get('window').width *.20}}  left={() =>  <MaterialCommunityIcons style name="chat" size={32} color="white" />} titleStyle={{fontWeight: 'bold'}} subtitleStyle={{color:'#4F47C7'}} title={data.groupName} subtitle={data.message} />
       </Card>
 
   );

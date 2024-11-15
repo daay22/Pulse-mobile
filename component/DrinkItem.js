@@ -11,10 +11,11 @@ function getPictureSize(){
   };
 }
 
-function ListItem({data,shoppingCart,bar}) {
+function ListItem({data,index,section,shoppingCart,bar}) {
   const navigation = useNavigation()
+  const notLast = index !== section.data.length-1
   return (
-    <TouchableOpacity onPress={()=>{navigation.navigate({name:"Drink Selection",params:{DrinkChoice:data,ShoppingCart:shoppingCart,Bar:bar}})}} style={styles.object}>
+    <TouchableOpacity onPress={()=>{navigation.navigate({name:"Drink Selection",params:{DrinkChoice:data,ShoppingCart:shoppingCart,Bar:bar}})}} style={[styles.object, notLast && styles.bottomBorder]}>
     <View style ={styles.textbox}>
     <Text style={{fontWeight: 'bold',  fontSize:20  }}>{data.name}</Text>
      <Text style ={{paddingVertical:7}}>$ {data.cost}</Text>
@@ -32,8 +33,13 @@ const styles = StyleSheet.create({
   object: {
     flexDirection: "row",
     marginVertical:15,
-
-    
+    marginLeft:8,    
+  },
+  bottomBorder:{
+    borderBottomWidth:1,
+    borderColor:'lightgrey',
+    paddingBottom:12,
+    marginBottom:12
   },
   textbox:{
     flexDirection:"column",

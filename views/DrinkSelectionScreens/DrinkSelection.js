@@ -62,30 +62,34 @@ function ClubDetails({ route, navigation }) {
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Image style={getPictureSize()} source={{ uri: route.params.DrinkChoice.image }} />
         </View>
-        <View style={{ backgroundColor: "white", marginTop: 16, marginBottom: 8, paddingLeft: 16 }}>
-          <Text style={[styles.headerText]}>{route.params.DrinkChoice.name}</Text>
-          <Text style={[styles.headerSubLabel, styles.verticalFormat]} >{//formatDollar(
-            route.params.DrinkChoice.cost}</Text>
+        <View style={{ backgroundColor: "white", marginTop: 16, paddingLeft: 16 }}>
+          <Text style={[styles.drinkHeaderText]}>{route.params.DrinkChoice.name}</Text>
+          <Text style={[styles.headerSubLabel, styles.verticalFormat]} >$ {route.params.DrinkChoice.cost}</Text>
           {route.params.DrinkChoice.description &&
             <Text style={[styles.verticalFormat, { color: "grey" }]}>{route.params.DrinkChoice.description}</Text>
           }
-          <NumericStepper updateCount={updateCount} count={count} canDelete={false} />
+          
         </View>
 
-        <View style={{ backgroundColor: "white", marginTop: 8, marginBottom: 16, paddingLeft: 16 }}>
+        <View style={{ backgroundColor: "white", marginBottom: 16, paddingLeft: 16,display:'none' }}>
           <Text style={[styles.headerSubLabel, styles.verticalFormat]} >{route.params.DrinkChoice.item_type + " Options"}</Text>
         </View>
 
 
-        <View style={{ backgroundColor: "white", marginTop: 8, marginBottom: 16, paddingHorizontal: 16 }}>
+        <View style={{ backgroundColor: "white", marginTop: 8, paddingHorizontal: 16 }}>
           <Text style={[styles.headerSubLabel, styles.verticalFormat]} >Special Instructions</Text>
           <TextInput
             style={{ height: 100, backgroundColor: "lightgrey", textAlignVertical: "top", paddingTop: 8, paddingLeft: 8 }}
             placeholder="Enter details here"
             onChangeText={newText => setDescription(newText)}
           />
-          <Text style={[styles.verticalFormat, { color: "grey" }]}>Can cause price increase</Text>
+          <Text style={[styles.verticalFormat, { color: "grey" }]}></Text>
 
+        </View>
+
+        
+        <View style={{ backgroundColor: "white", marginTop: 8, marginBottom: 16, paddingHorizontal: 16 }}>
+        <NumericStepper updateCount={updateCount} count={count} canDelete={false} />
         </View>
 
 

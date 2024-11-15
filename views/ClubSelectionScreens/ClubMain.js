@@ -37,9 +37,7 @@ function ClubMain() {
 
     console.log(state.inScreenOrders)
     
-    function removeSpecialCharacters(str) {
-      return str.replace(/[^a-zA-Z0-9 ]/g, '');
-    }
+    
 
     useEffect(() => {
       let ws;
@@ -61,6 +59,11 @@ function ClubMain() {
               console.log('WebSocket connection opened:' + event);
               // Send a message to the server
               ws.send('Hello from Mobile: ' + id);
+              setInterval(() => {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'ping:'+ id }));
+                }
+            }, 30000); // 30 seconds interval
             });
       
       
@@ -129,6 +132,10 @@ function ClubMain() {
       
             ws.onclose = () => {
               console.log('WebSocket closed');
+              console.log('WebSocket closed. Reconnecting in 5 seconds...');
+              setTimeout(() => {
+                initWebSocket(); // Attempt to reconnect after a delay
+              }, 5000);
             };
 
             

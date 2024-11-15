@@ -11,6 +11,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import service from './api/customer'
 import { Alert } from "react-native";
 import { loadOrder, updateAsyncFromDB, clearAsync as startFresh } from './store/asyncStorage';
+import * as SecureStore from 'expo-secure-store';
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -20,23 +23,30 @@ export default function App() {
   const navigation = useNavigation();
   const isFocused = useIsFocused()
 
+
+  function removeSpecialCharacters(str) {
+    return str.replace(/[^a-zA-Z0-9 ]/g, '');
+  }
+
   useEffect(() => {
     async function setup() {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
       console.log(status);
       setHasPermission(status === 'granted');
       //In case data is Corrupted
-      startFresh();
-      await SecureStore.deleteItemAsync('secure_deviceid')
+      //startFresh();
+      //await SecureStore.deleteItemAsync('secure_deviceid')
 
       var deviceID = ''
         const fetchUUID = await SecureStore.getItemAsync('secure_deviceid');
   //if user has already signed up prior
   if (fetchUUID) {
     deviceID = fetchUUID
+    console.log('set existing ID'+ fetchUUID)
   }
   else{
     const uuid = uuidv4();
+    console.log('set new ID'+ fetchUUID)
     console.log(uuid)
     const idString = removeSpecialCharacters(uuid)
     console.log(idString)
@@ -50,16 +60,16 @@ export default function App() {
         console.log('Navigate straight to screen')
         setActiveOrders(true);
         console.log(currentOrders)
+        console.log(state)
         
 
         service.getVenueInfo(currentOrders[0].VenueID, deviceID)
-          //TODO add in a call to the backend to check the status of all of the orders.
           .then(jsonData => {
             console.log('Im in there')
             console.log(jsonData)
             if (jsonData?.data?.venue) { //jsonData.action.payload.data.venue
+              //TODO check if there are active orders and if not set it to false and navigate.
               console.log(JSON.stringify(jsonData, null, 2), "jsonData Home Screen");
-              var submitObject = { ...jsonData }
               load(jsonData)
               navigation.navigate('Club Main', { name: state?.venue?.venue_name })
 
@@ -83,7 +93,7 @@ export default function App() {
   }, []);
 
   const instructions = () => {
-    Alert.alert('Scan Business barcode')
+    Alert.alert('Welcome to Pulse', 'Scan business barcode to access features within the club')
 
   };
 
