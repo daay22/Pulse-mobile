@@ -30,10 +30,14 @@ class OrderService{
             .post(url,body,{
             })
             .then(responseData => {
+                console.log('successfully cancelled')
                 response = responseData.data.data;
             })
             .catch(error => {
-                response = error;
+                if( error.response?.status === 409 ){
+                    throw new Error("Your order has already been accepted and can\'t be canceled")
+                }
+                throw new Error("There was an issue with the cancel. Please try again")
             });
 
         return response;

@@ -27,8 +27,6 @@ const Stack = createStackNavigator();
 export default function App() {
 
   useEffect(() => {
-    console.log("Davion checks enviroment")
-    console.log(process.env.EXPO_PUBLIC_STRIPE_PUBLISHER_KEY)
 
     AppState.addEventListener("change", (nextAppState) => {
     checkAppUpdates();

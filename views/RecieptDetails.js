@@ -1,4 +1,5 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useContext} from 'react';
+import { MyContext } from '../store/context.js'
 import {Platform, View, Text, FlatList, Pressable, Button as CancelButton,Alert} from 'react-native';
 import { Divider,Button } from 'react-native-paper';
 import styles from "../style.js"
@@ -16,6 +17,8 @@ export default function Checkout({navigation,route}){
     const [createdTime,setCreatedTime]=useState("")
     const [reciept,setReciept]=useState("")
     const [orderID,setOrderID]=useState("")
+    const {state,inScreenOrdersUpdate,screenRemoveOrder,setActiveOrders,acceptedOrder} = useContext(MyContext);
+
 
 
     const handlePress = () => {
@@ -35,26 +38,35 @@ export default function Checkout({navigation,route}){
               // Logic to run if 'Yes' is pressed
               console.log("Action confirmed");
               service.cancelOrder(route.params.Data.payment_ID,{cancel_reason:'User Cancelled',update_ID:route.params.Data.bar_ID})
-              .then(() => {
-                Alert.alert(
-                  "Order Cancelled",
-                  "The order was successfully cancelled.",
-                  [{ text: "OK",
-                    onPress: async () => {
-                      // Navigate to another screen after hitting OK
-                      clearOrder(route.params.Data.readable_ID)
-                    screenRemoveOrder(route.params.Data.readable_ID)
-                    var currentOrders = await loadOrder();
-                    setCurrentOrders(currentOrders)
-                    if(currentOrders.length===0){
-                        setActiveOrders(false);
-                    }
-                      navigation.navigate('Reciept'); // Replace 'NextScreen' with your target screen
-                    },
-                   }]
-                );
+              .then((data) => {
+                console.log(data)
+                if(data.error){
+                  
+                }
+                else{
+                  Alert.alert(
+                    "Order Cancelled",
+                    "The order was successfully cancelled.",
+                    [{ text: "OK",
+                      onPress: async () => {
+                        // Navigate to another screen after hitting OK
+                        clearOrder(route.params.Data.readable_ID)
+                      screenRemoveOrder(route.params.Data.readable_ID)
+                      var currentOrders = await loadOrder();
+                      if(currentOrders.length===0){
+                        console.log('success!')
+                          setActiveOrders(false);
+                      }
+                        navigation.navigate('Receipt'); // Replace 'NextScreen' with your target screen
+                      },
+                     }]
+                  );
+                }
+                
               })
-              clearOrder(route.params.Data.readable_ID)
+              .catch((error)=>{
+                Alert.alert('Order not cancelled',error.message);
+              })
               //TODO
               //update the stores here if successful
 
@@ -68,8 +80,6 @@ export default function Checkout({navigation,route}){
     useEffect(()=>{
         async function initialize(){
           console.log('Davion in the recipt')
-          console.log(route.params.Data)  
-          console.log(route.params.Data.item_list)
 
             setOrderID(route.params.Data.readable_ID)
             setBar(route.params.Data.barName)

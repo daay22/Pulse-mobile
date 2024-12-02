@@ -31,11 +31,13 @@ const Tab = createBottomTabNavigator();
 function ClubMain() {
 
     const navigation = useNavigation();
-    const {state,inScreenOrdersUpdate,screenRemoveOrder,setActiveOrders,acceptedOrder} = useContext(MyContext);
+    const {state,inScreenOrdersUpdate,screenRemoveOrder,setActiveOrders,acceptedOrder,refreshState} = useContext(MyContext);
     const [currentOrders, setCurrentOrders] = useState([]);
     const wsRef = useRef(null);
+    const showBathroomTab = state.bathrooms.length>0
+    const showReciptTab = !(state.bars.length==0 && state.inScreenOrders.length ==0)
 
-    console.log(state.inScreenOrders)
+
     
     
 
@@ -45,15 +47,8 @@ function ClubMain() {
           try {
             const id = await SecureStore.getItemAsync('secure_deviceid');
             console.log('DeviceID:' + id);
-
-            console.log(id);
-
-      
-            console.log(typeof(id))
             ws = new WebSocket(`wss://6jmqtda5q8.execute-api.us-east-1.amazonaws.com/dev?entityId=${id}`);
             wsRef.current = ws;
-
-            console.log(ws)
       
             ws.addEventListener('open', (event) => {
               console.log('WebSocket connection opened:' + event);
@@ -69,6 +64,8 @@ function ClubMain() {
       
             ws.addEventListener('message', async(event) => {
               const payload = JSON.parse(JSON.parse(event.data));
+              console.log('cuurent state')
+              console.log(state.inScreenOrders)
               console.log('start of the socket:')
               console.log(payload);
       
@@ -137,13 +134,6 @@ function ClubMain() {
                 initWebSocket(); // Attempt to reconnect after a delay
               }, 5000);
             };
-
-            
-
-
-            console.log('socket')
-            console.log('wsRef.current (inside initWebSocket):', wsRef.current);
-            console.log(ws)
       
             
           } catch (error) {
@@ -163,11 +153,8 @@ function ClubMain() {
       }, []);
 
       useEffect(() => {
-        (async () => {
-          console.log('state has changed in main')
-          const data = await loadOrder();
-          setCurrentOrders(data)
-        })();
+        console.log('State has updated:');
+        console.log(state);
       }, [state]);
 
 
@@ -175,29 +162,30 @@ function ClubMain() {
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-            const isActive = state.inScreenOrders.length> 0
-            console.log('Current in screen orders = '+ state.inScreenOrders.length)
+          refreshState()  
+          const isActive = state.activeOrders
             if(isActive){
                 Alert.alert('You have active orders!', 'Please complete or cancel your active orders before leaving this screen.');
                 e.preventDefault();
             }           
         });
-        // Cleanup function
+        // Cleanup function 
         return unsubscribe;
-      }, [navigation]);
+      }, [navigation,state]);
       
 
     return (
         <Tab.Navigator>
         <Tab.Screen labeled={false}  name="Bar Selection" component={BarSelection}
         options={{
-            tabBarLabel: 'Bar',
+            tabBarLabel: 'Order',
             tabBarIcon: ({}) => (
                 <Ionicons name="wine-sharp" class="tabIcon" size={24} color="#4F47C7" />
             ),
             headerShown:false
           }}
           />
+          {showBathroomTab && (
         <Tab.Screen name="Bathroom" component={BathroomList} 
         options={{
             tabBarLabel:"Bathroom",
@@ -206,6 +194,7 @@ function ClubMain() {
             ),
             headerShown:false
         }}/>
+        )}
         <Tab.Screen name="Message" component={Message} 
         options={{
             tabBarLabel:"Message",
@@ -222,6 +211,7 @@ function ClubMain() {
             ),
             headerShown:false
         }}/>*/}
+         {showReciptTab && (
         <Tab.Screen name="Receipt"
         options={{
             tabBarLabel:"Receipt",
@@ -232,6 +222,7 @@ function ClubMain() {
         }}>
             {() => <Receipt navigation= {navigation} />}
         </Tab.Screen>
+        )}
       </Tab.Navigator>                              
     );
   

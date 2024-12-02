@@ -22,22 +22,28 @@ const reducer = (state, action) => {
     case 'ACTIVEORDER':
       console.log('setting active orders to: ' + action.payload)
       return {...state,activeOrders:action.payload}
-    case 'INSCREENORDERUPDATE':
-      console.log('What am i setting the context to?')
-      console.log(action)
-      console.log(action.payload)
-      const item = state.inScreenOrders.find(item => item.readable_ID === action.payload.readable_ID);
-      
-      const updatedOrders = item ? state.inScreenOrders.map(item => item.readable_ID === action.payload.readable_ID ? action.payload : item): [...state.inScreenOrders,action.payload]
+    case 'INSCREENORDERUPDATE':   
+    console.log(updatedOrders)   
+      const updatedOrders = [...state.inScreenOrders,action.payload]
+      console.log('new state after submit')
+      console.log(updatedOrders)
+      console.log({
+        ...state,
+        inScreenOrders: updatedOrders,
+        activeOrders:true})
       return{
         ...state,
         inScreenOrders: updatedOrders,
         activeOrders:true}
     //  const newList = state.inScreenOrders = state.inScreenOrders.sort((a,b) => a.Created - b.Created)
-      return 
+    case 'REFRESH':
+            return { ...state };
     case 'REMOVEORDERFROMSCREEN':
-      console.log(action.payload)    
+      console.log(action.payload)   
+      console.log('filter response')
+      console.log(state.inScreenOrders) 
      const filteredList = state.inScreenOrders.filter(item =>item.readable_ID != action.payload)
+     console.log(filteredList)
      return{
       ...state,
       inScreenOrders: filteredList,
@@ -87,10 +93,17 @@ const MyProvider = ({ children }) => {
   const screenRemoveOrder = (customerID) => {
     dispatch({ type: 'REMOVEORDERFROMSCREEN', payload: customerID });
   }
+  const refreshState = async () => {
+    try {
+        dispatch({ type: 'REFRESH' });
+    } catch (error) {
+        console.error('Error refreshing state:', error);
+    }
+};
   
 
   return (
-    <MyContext.Provider value={{ state, clear, load,setActiveOrders,inScreenOrdersUpdate, screenRemoveOrder,acceptedOrder }}>
+    <MyContext.Provider value={{ state, clear, load,setActiveOrders,inScreenOrdersUpdate, screenRemoveOrder,acceptedOrder,refreshState }}>
       {children}
     </MyContext.Provider>
   );

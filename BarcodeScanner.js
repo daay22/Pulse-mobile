@@ -17,7 +17,7 @@ export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const { state, load, setActiveOrders, clear, inScreenOrdersUpdate } = useContext(MyContext);
   const [scanned, setScanned] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(true); 
   const navigation = useNavigation();
   const isFocused = useIsFocused()
 
@@ -47,7 +47,7 @@ export default function App() {
         setHasPermission(false);
       }
       //In case data is Corrupted
-      //startFresh();
+      startFresh();
       //await SecureStore.deleteItemAsync('secure_deviceid')
 
       var deviceID = ''
@@ -59,8 +59,6 @@ export default function App() {
   }
   else{
     const uuid = uuidv4();
-    console.log('set new ID'+ fetchUUID)
-    console.log(uuid)
     const idString = removeSpecialCharacters(uuid)
     console.log(idString)
     await SecureStore.setItemAsync('secure_deviceid', idString);
@@ -77,14 +75,11 @@ export default function App() {
 
         service.getVenueInfo(currentOrders[0].VenueID, deviceID)
           .then(jsonData => {
-            console.log('Im in there')
-            console.log(jsonData)
             if (jsonData?.data?.venue) { //jsonData.action.payload.data.venue
-              //TODO check if there are active orders and if not set it to false and navigate.
-              console.log(JSON.stringify(jsonData, null, 2), "jsonData Home Screen");
               load(jsonData)
               setIsLoading(false);
-              navigation.navigate('Club Main', { name: state?.venue?.venue_name })
+              console.log(jsonData.data.venue)
+              navigation.navigate('Club Main', { name: jsonData.data.venue.venue_name })
 
             }
             else {
@@ -114,17 +109,18 @@ export default function App() {
   };
 
   const handleBarCodeScanned = ( type, data ) => {
-    console.log(data)
     setScanned(true);
     setIsLoading(true);
+    console.log("Barcode scanned")
     service.getVenueInfo(data)
       .then(jsonData => {
         if (jsonData?.data?.venue) { //jsonData.action.payload.data.venue
+          console.log(jsonData)
           setIsLoading(false);
           clear();
           load(jsonData)
-          console.log(JSON.stringify(jsonData, null, 2), " jsonData Home BAR code scan");
-          navigation.navigate('Club Main', { name: state?.venue?.venue_name })
+          console.log(jsonData.data.venue)
+          navigation.navigate('Club Main', { name: jsonData.data.venue.venue_name })
         }
         else {
           console.log(JSON.stringify(jsonData, null, 2), "else");
@@ -158,7 +154,6 @@ export default function App() {
         <CameraView
         onBarcodeScanned={({ data,type }) => {
           if (!scanned) {
-            console.log('data' + data)
             handleBarCodeScanned(type,data)
           }
         }}

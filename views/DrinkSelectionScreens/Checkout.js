@@ -51,6 +51,11 @@ export default function Checkout({navigation,route}){
   const openPaymentSheet = async () => {
     const { error, paymentOption } = await presentPaymentSheet();
 
+    console.log('error')
+    console.log(error)
+    console.log('paymentOption')
+    console.log(paymentOption)
+
     if (error) {
         console.log(error)
         if(error.code=="Canceled"){
@@ -60,7 +65,6 @@ export default function Checkout({navigation,route}){
           Alert.alert(`Error code: ${error.code}`, error.message);
         }
     } else {
-      Alert.alert('Success', 'Your order is confirmed!');
 
       const formatter = new Intl.DateTimeFormat('en-us',{hour:'2-digit',minute:'2-digit',second:'2-digit'})
       
@@ -77,9 +81,6 @@ export default function Checkout({navigation,route}){
       console.log('Finished in the Checkout')
       await saveOrder(pendingOrder.readable_ID,pendingOrder)
       await setActiveOrders(true)
-      console.log('updated state?: ')
-      console.log(state)
-      inScreenOrdersUpdate(pendingOrder)
       navigation.navigate("Receipt")
     }
   };
@@ -105,9 +106,9 @@ export default function Checkout({navigation,route}){
             }
             
             var total = cost+((cost*.06)+.5);
-            cost = cost.toFixed(2)
+            cost = cost
             setSubTotalBill(cost)
-            total= total.toFixed(2)
+            total= total
             setTotalBill(total);
                /* const pKey = await service.getPublisherKey();
                 if(pKey){
@@ -149,7 +150,7 @@ export default function Checkout({navigation,route}){
           <Divider style={[{backgroundColor:"black",margin:12,}]}/>
           <View style={[styles.stretchFormItems,styles.verticalFormat]}>
               <Text style={[styles.checkoutText,styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>Subtotal</Text>
-              <Text style={[styles.checkoutText,styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>(${subTotalBill})</Text>
+              <Text style={[styles.checkoutText,styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>(${subTotalBill.toFixed(2)})</Text>
           </View>
           <View style={[styles.stretchFormItems,styles.verticalFormat]}>
               <Text style={[styles.checkoutText, styles.checkoutColor, styles.marginLeftHeader,styles.bottomHeaderMargin]}>Service Charge</Text>
@@ -157,7 +158,7 @@ export default function Checkout({navigation,route}){
           </View>
           <View style={[styles.stretchFormItems,styles.verticalFormat]}>
               <Text style={[styles.checkoutText, styles.marginLeftHeader,styles.bottomHeaderMargin]}>Total</Text>
-              <Text style={[styles.checkoutText, styles.marginLeftHeader,styles.bottomHeaderMargin]}>${totalBill}</Text>
+              <Text style={[styles.checkoutText, styles.marginLeftHeader,styles.bottomHeaderMargin]}>${totalBill.toFixed(2)}</Text>
           </View>
   
   

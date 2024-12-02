@@ -25,9 +25,10 @@ const BottomDrawer  = ({updateCount,deleteItem, bar,isVisible,onClose,goToChecko
 const getSubtotal = () => {
         var cost =0
         for (var item = 0; item < shoppingCart.length; item++) {
-          cost += shoppingCart[item].NumberOfDrinks * shoppingCart[item].Cost
+          cost += (shoppingCart[item].NumberOfDrinks * shoppingCart[item].Cost)
         }
-        setSubtotalCost(cost)
+        console.log('sub cost: '+cost.toFixed(2))
+        setSubtotalCost(cost.toFixed(2))
 }
 
 useEffect(()=>{
@@ -40,7 +41,6 @@ useEffect(()=>{
 
 useLayoutEffect (() =>{
   if(isUnmounting){
-    setLoading(false);
     setIsUnmounting(false);
   }
 },[isUnmounting]);

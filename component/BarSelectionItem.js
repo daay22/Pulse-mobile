@@ -8,7 +8,7 @@ function BarSelectionItem({navigation,data}) {
     <View>   
     <Text style={[styles.primaryColorHeader]}>{data.item.name}</Text>
      <Text style={{paddingTop:5,paddingBottom:3,color:"#4F47C7",}}>{data.item.description}</Text>
-     <Text style={{fontStyle: 'italic'}}>N/A</Text>
+     <Text style={{fontStyle: 'italic'}}>{data.item.approximateWaitTime}</Text>
      </View>
     </TouchableOpacity>
   );

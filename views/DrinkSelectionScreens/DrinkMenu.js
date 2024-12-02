@@ -102,11 +102,11 @@ function DrinkMenu({route,navigation}) {
         var cost =0
         for (var item = 0; item < prevShoppingCart.length; item++) {
           total += prevShoppingCart[item].NumberOfDrinks;
-          cost += prevShoppingCart[item].NumberOfDrinks * prevShoppingCart[item].Cost
+          cost += (prevShoppingCart[item].NumberOfDrinks * prevShoppingCart[item].Cost)
         }
         console.log('new cost:'+cost)
         setTotalDrinks(total);
-        setTotalCost(cost);
+        setTotalCost(cost.toFixed(2));
   
   
         // Return the updated shoppingCart
@@ -140,6 +140,8 @@ function DrinkMenu({route,navigation}) {
       const readableId = generateReadableID()
 
       const requestObject= {BarId:bar._id,Cart:cartRequest,VenueId:state.venue._id,UserID:state.venue.user_id, Cost:totalCost, DeviceId: deviceID,ReadableId:readableId}
+      console.log("request object:")
+      console.log(requestObject)
       const returnJson = await PaymentService.createPaymentIntent(requestObject)
       console.log("created payment Intent")
       var checkoutObject = {
@@ -174,7 +176,7 @@ function DrinkMenu({route,navigation}) {
         <View style={boxStyles.ovalBox}>
         <Text>
       <Text style={boxStyles.boldText}>Estimated Time: </Text>
-      <Text style={boxStyles.normalText}>N/A</Text>
+      <Text style={boxStyles.normalText}>{route.params.Bar.approximateWaitTime}</Text>
     </Text>
         </View>
     </View>
@@ -217,7 +219,7 @@ const boxStyles = StyleSheet.create({
     marginVertical: 10,
   },
   ovalBox: {
-    width: 200, // Adjust as needed
+    width: '65%', // Adjust as needed
     height: 50, // Adjust as needed
     backgroundColor: '#f0f0f0',
     borderRadius: 25, // Half of the height to make it oval

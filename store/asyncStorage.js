@@ -13,7 +13,7 @@ const saveOrder = async (orderID,orderData) => {
     await AsyncStorage.setItem(orderID, JSON.stringify(orderData));
   
     console.log('Order in async saved successfully:');
-    console.log(orderData)
+    //console.log(orderData)
   } catch (error) {
     console.error('Error saving order:', error);
   }
@@ -29,7 +29,7 @@ const loadOrder = async () => {
     const jsonData = orderData.map(item => JSON.parse(item))
     if (jsonData.length!==0) {
       // Order data found, do something with it
-      console.log('Loaded order data:', orderData);
+      //console.log('Loaded order data:', orderData);
       return jsonData;
     } else {
       console.log('No saved order data found');
@@ -66,7 +66,6 @@ const updateOrder = async (orderData) => {
   const updateAsyncFromDB = async(orders) => {
     await AsyncStorage.clear()
     console.log('updating from DB')
-    console.log(orders)
     for (var iter=0;iter<orders.length;iter++){
       console.log('in the order Update')
       var neworder = {
@@ -78,8 +77,6 @@ const updateOrder = async (orderData) => {
         Accepted:orders[iter].is_accepted,
         VenueID: orders[iter].venue._id,
         ApproximateTime:orders[iter].approximateWaitTime}
-        console.log('test cart')
-        console.log(neworder.Cart)
         saveOrder(orders[iter].customer_ID,neworder)
     }
   }

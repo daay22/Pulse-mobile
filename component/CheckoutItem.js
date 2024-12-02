@@ -16,7 +16,7 @@ function recieptItem({data}) {
         <View style={{
           flex: 1,
         }} >
-            <Text style={[styles.checkoutText,styles.alignRight]}>${data.item.Cost* data.item.NumberOfDrinks}</Text>
+            <Text style={[styles.checkoutText,styles.alignRight]}>${(data.item.Cost* data.item.NumberOfDrinks).toFixed(2)}</Text>
         </View>
       </View>
 

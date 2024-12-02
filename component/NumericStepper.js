@@ -10,13 +10,20 @@ const NumericStepper = ({updateCount,count,canDelete,deleteItem,ID}) => {
   };
 
   const handleDecrement = () => {
-    if (count > 1) {
+    if (count >= 1) {
       console.log('decrement 1')
       updateCount(count-1)
     }
   };
   const showTrash = () => {
       return canDelete && count==1
+  }
+
+
+  deleteandUpdate= (id) => {
+    console.log('hit the deck')
+    handleDecrement()
+    deleteItem(id)
   }
 
   return (
@@ -28,7 +35,7 @@ const NumericStepper = ({updateCount,count,canDelete,deleteItem,ID}) => {
       }
       { showTrash() &&
       <TouchableOpacity style={styles.button} >
-        <IconButton onPress={() => deleteItem(ID)} style={[{paddingTop:8,paddingLeft:4}]} size={24} iconColor='white' icon="trash-can" />
+        <IconButton onPress={() => deleteandUpdate(ID)} style={[{paddingTop:8,paddingLeft:4}]} size={24} iconColor='white' icon="trash-can" />
       </TouchableOpacity>
       }
 
